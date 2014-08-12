@@ -1,0 +1,1 @@
+0.1.0: requirements change static3 -> static3-jl

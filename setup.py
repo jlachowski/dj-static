@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-dj-static
-~~~~~~~~~
+dj-static-jl
+~~~~~~~~~~~~
+
+This is a modification of the original dj-static by Kenneth Reitz (https://pypi.python.org/pypi/dj-static)
 
 This is a simple Django middleware utility that allows you to properly
 serve static assets from production with a WSGI server like Gunicorn.
@@ -27,22 +29,33 @@ Then, update your ``wsgi.py`` file to use dj-static::
 
     application = Cling(get_wsgi_application())
 
+or::
+
+    from django.core.wsgi import get_wsgi_application
+    from dj_static import Cling
+    import static
+
+    class BaseCling(static.Cling):
+        ...
+
+    application = Cling(get_wsgi_application(), cling_class=BaseCling)
+
 """
 
 from setuptools import setup
 
 setup(
-    name='dj-static',
-    version='0.0.6',
-    url='https://github.com/kennethreitz/dj-static',
+    name='dj-static-jl',
+    version='0.1.0',
+    url='https://github.com/jlachowski/dj-static',
     license='BSD',
-    author='Kenneth Reitz',
-    author_email='me@kennethreitz.com',
+    author='Jaroslaw Lachowski',
+    author_email='jalachowski@gmail.com',
     description='Serve production static files with Django.',
     long_description=__doc__,
     py_modules=['dj_static'],
     zip_safe=False,
-    install_requires=['static3'],
+    install_requires=['static3-jl'],
     include_package_data=True,
     platforms='any',
     classifiers=[
