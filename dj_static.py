@@ -38,14 +38,14 @@ class Cling(WSGIHandler):
     """WSGI middleware that intercepts calls to the static files
     directory, as defined by the STATIC_URL setting, and serves those files.
     """
-    def __init__(self, application, base_dir=None, base_url=None, ignore_debug=False, cling_class=static.Cling, **kwargs):
+    def __init__(self, application, base_dir=None, base_url=None, ignore_debug=False, cling_class=static.Cling):
         self.application = application
         self.ignore_debug = ignore_debug
         if not base_dir:
             base_dir = self.get_base_dir()
         self.base_url = urlparse(base_url or self.get_base_url())
 
-        self.cling = cling_class(base_dir, **kwargs)
+        self.cling = cling_class(base_dir)
         try:
             self.debug_cling = DebugHandler(application, base_dir=base_dir)
         except TypeError:
@@ -77,7 +77,7 @@ class Cling(WSGIHandler):
         """
         return path.startswith(self.base_url[2]) and not self.base_url[1]
 
-    def __call__(self, environ, start_response, **kwargs):
+    def __call__(self, environ, start_response):
         # Hand non-static requests to Django
         if not self._should_handle(get_path_info(environ)):
             return self.application(environ, start_response)
